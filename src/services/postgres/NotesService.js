@@ -1,8 +1,8 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
-const { mapDBToModel } = require('../../utils');
 const NotFoundError = require('../../exceptions/NotFoundError');
+const { mapDBToModel } = require('../../utils');
 
 class NotesService {
   constructor() {
@@ -12,11 +12,11 @@ class NotesService {
   async addNote({ title, body, tags }) {
     const id = nanoid(16);
     const createdAt = new Date().toISOString();
-    const updateAt = createdAt;
+    const updatedAt = createdAt;
 
     const query = {
       text: 'INSERT INTO notes VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
-      values: [id, title, body, tags, createdAt, updateAt],
+      values: [id, title, body, tags, createdAt, updatedAt],
     };
 
     const result = await this._pool.query(query);
